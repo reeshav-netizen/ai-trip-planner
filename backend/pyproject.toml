@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "trip-planner-backend"
+version = "1.0.0"
+description = "AI-powered trip planning backend using CrewAI agents"
+authors = [{name = "Trip Planner Team"}]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "fastapi==0.104.1",
+    "uvicorn[standard]==0.24.0",
+    "pydantic==2.5.0",
+    "python-multipart==0.0.6",
+    "arize-phoenix==4.0.0",
+    "opentelemetry-sdk==1.21.0",
+    "opentelemetry-exporter-otlp==1.21.0",
+    "crewai==0.41.1",
+    "crewai-tools==0.8.3",
+    "openinference-instrumentation-crewai==0.1.12",
+    "python-dotenv==1.0.0",
+]
+
+[project.scripts]
+trip-planner = "main:app"
+
+[tool.setuptools]
+packages = ["trip_planner_backend"]
