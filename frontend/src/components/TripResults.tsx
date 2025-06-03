@@ -3,10 +3,11 @@ import {
   Box,
   Typography,
   Button,
+  Chip,
   Divider,
   Paper
 } from '@mui/material';
-import { Refresh } from '@mui/icons-material';
+import { Refresh, Psychology } from '@mui/icons-material';
 import ReactMarkdown from 'react-markdown';
 import { TripResponse } from '../types/trip';
 
@@ -16,17 +17,41 @@ interface TripResultsProps {
 }
 
 const TripResults: React.FC<TripResultsProps> = ({ response, onNewTrip }) => {
+  const getAgentIcon = (agentType: string) => {
+    if (agentType.toLowerCase().includes('research')) return '🔍';
+    if (agentType.toLowerCase().includes('itinerary')) return '📅';
+    if (agentType.toLowerCase().includes('budget')) return '💰';
+    if (agentType.toLowerCase().includes('local')) return '🍽️';
+    return '🤖';
+  };
+
+  const getRouteColor = (route: string) => {
+    switch (route.toLowerCase()) {
+      case 'research': return 'info';
+      case 'itinerary': return 'success';
+      case 'budget': return 'warning';
+      case 'local': return 'secondary';
+      default: return 'primary';
+    }
+  };
+
   return (
     <Box>
-      {/* Results Header */}
+      {/* Agent Info Header */}
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 3, gap: 2 }}>
         <Typography variant="h6" sx={{ fontSize: '2rem' }}>
-          🧳
+          {getAgentIcon(response.agent_type)}
         </Typography>
         <Box sx={{ flexGrow: 1 }}>
           <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-            Your Comprehensive Trip Plan
+            {response.agent_type}
           </Typography>
+          <Chip
+            label={`Route: ${response.route_taken}`}
+            color={getRouteColor(response.route_taken) as any}
+            size="small"
+            icon={<Psychology />}
+          />
         </Box>
       </Box>
 

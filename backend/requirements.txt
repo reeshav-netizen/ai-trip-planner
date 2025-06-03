@@ -5,10 +5,9 @@ python-multipart>=0.0.6
 arize-otel
 opentelemetry-sdk>=1.21.0
 opentelemetry-exporter-otlp>=1.21.0
+crewai
+crewai-tools
+openinference-instrumentation-crewai
 openinference-instrumentation-langchain
 python-dotenv>=1.0.0
 requests>=2.31.0
-langgraph
-langchain-openai
-langchain_community
-langchain-tavily
