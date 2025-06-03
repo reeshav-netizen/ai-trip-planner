@@ -411,6 +411,4 @@ async def health_check():
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
-    # example_trip_request = TripRequest(destination="Paris", duration="7 days", budget="1000", interests="history, culture, food", travel_style="Standard")
-    # print(asyncio.run(plan_trip(example_trip_request)))
     
