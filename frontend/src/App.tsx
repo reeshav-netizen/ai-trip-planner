@@ -191,7 +191,7 @@ function App() {
                       Your Trip Plan
                     </Typography>
                     <Chip
-                      label={tripResponse.agent_type}
+                      label="AI Trip Planner"
                       color="primary"
                       variant="outlined"
                     />
