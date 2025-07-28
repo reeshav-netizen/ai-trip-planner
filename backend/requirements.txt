@@ -11,6 +11,7 @@ openinference-instrumentation-langchain
 langgraph>=0.2.55
 langchain>=0.3.7
 langchain-openai>=0.2.10
+google-generativeai>=0.8.0
 langchain-community>=0.3.5
 openinference-instrumentation-litellm
 litellm

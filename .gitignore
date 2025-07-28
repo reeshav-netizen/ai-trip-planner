@@ -83,3 +83,10 @@ coverage/
 # Temporary files
 tmp/
 temp/
+
+# Virtual environments
+venv_google_ai/
+venv/
+
+# Specstory (contains API keys)
+.specstory/

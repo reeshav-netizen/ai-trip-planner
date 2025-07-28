@@ -27,6 +27,7 @@ from typing_extensions import TypedDict, Annotated
 import operator
 from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.tools import tool
 from langchain_community.tools.tavily_search import TavilySearchResults
 
@@ -117,15 +118,46 @@ class TripPlannerState(TypedDict):
     trip_request: Dict[str, Any]
     final_result: Optional[str]
 
-# Initialize the LLM - Using GPT-4.1 for production
+# Initialize the LLM - Using Google AI Studio (Gemini) as default
 # Note: This should be initialized after instrumentation setup
-llm = ChatOpenAI(
-    api_key=os.getenv("OPENAI_API_KEY"),
-    model="gpt-4o-mini",  # GPT-4o-mini
-    temperature=0,
-    max_tokens=2000,
-    timeout=30
-)
+def get_llm():
+    """Get the appropriate LLM based on available API keys"""
+    google_api_key = os.getenv("GOOGLE_API_KEY")
+    openai_api_key = os.getenv("OPENAI_API_KEY")
+    
+    # Try Google AI Studio first (preferred)
+    if google_api_key and google_api_key != "your_google_ai_studio_api_key_here":
+        try:
+            print("🤖 Using Google AI Studio (Gemini) as primary LLM")
+            return ChatGoogleGenerativeAI(
+                google_api_key=google_api_key,
+                model="gemini-1.5-flash",  # Fast and efficient model
+                temperature=0,
+                max_output_tokens=2000,
+                timeout=30
+            )
+        except Exception as e:
+            print(f"⚠️ Google AI Studio failed: {e}")
+    
+    # Fallback to OpenAI
+    if openai_api_key and openai_api_key != "your_openai_api_key_here":
+        try:
+            print("🤖 Using OpenAI as fallback LLM")
+            return ChatOpenAI(
+                api_key=openai_api_key,
+                model="gpt-4o-mini",
+                temperature=0,
+                max_tokens=2000,
+                timeout=30
+            )
+        except Exception as e:
+            print(f"⚠️ OpenAI failed: {e}")
+    
+    # If no valid API keys, raise error
+    raise ValueError("No valid API keys found. Please set GOOGLE_API_KEY or OPENAI_API_KEY")
+
+# Initialize the LLM
+llm = get_llm()
 
 # Initialize search tool if available
 search_tools = []
